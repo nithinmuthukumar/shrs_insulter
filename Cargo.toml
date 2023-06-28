@@ -4,11 +4,13 @@ version = "0.0.1"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 authors = ["nithinmuthukumar"]
-description = "Implementation of bash insulter"
+description = "Implementation of bash insulter for shrs"
 repository = "https://github.com/nithinmuthukumar/shrs_insulter"
-
+keywords = ["shrs", "shell", "posix", "unix", "plugin"]
+readme = "README.md"
 [dependencies]
 rand = "0.8.5"
 lazy_static = "1.4.0"
-shrs = { git = "https://github.com/MrPicklePinosaur/shrs"}
+shrs = "0.0.1"
 
+ 
