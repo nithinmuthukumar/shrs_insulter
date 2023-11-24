@@ -2,7 +2,7 @@ use std::cell::RefCell;
 
 use lazy_static::lazy_static;
 use rand::{thread_rng, Rng};
-use shrs::prelude::*;
+use shrs::{anyhow::Result, prelude::*};
 
 lazy_static! {
     static ref DEFAULT_INSULTS: Vec<&'static str> = {
@@ -117,13 +117,14 @@ impl InsulterPlugin {
 }
 
 impl Plugin for InsulterPlugin {
-    fn init(&self, shell: &mut shrs::ShellConfig) {
+    fn init(&self, shell: &mut shrs::ShellConfig) -> Result<()> {
         shell.hooks.register(insult_hook);
         shell.state.insert(InsulterState::new(
             self.insults.clone(),
             self.freq,
             self.include_default,
         ));
+        Ok(())
     }
 }
 impl Default for InsulterPlugin {
@@ -137,10 +138,10 @@ fn insult_hook(
     _sh_rt: &mut Runtime,
     ctx: &AfterCommandCtx,
 ) -> anyhow::Result<()> {
-    if ctx.exit_code != 0 {
+    if !ctx.cmd_output.status.success() {
         if let Some(state) = sh_ctx.state.get_mut::<InsulterState>() {
             if state.should_insult() {
-                println!("\n{}\n", state.rand_insult());
+                sh_ctx.out.println(format!("\n{}", state.rand_insult()))?;
             }
         }
     }

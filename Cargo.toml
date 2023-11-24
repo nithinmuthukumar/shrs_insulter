@@ -11,6 +11,8 @@ readme = "README.md"
 [dependencies]
 rand = "0.8.5"
 lazy_static = "1.4.0"
-shrs = "0.0.1"
+shrs = {git="https://github.com/MrPicklePinosaur/shrs.git"}
+shrs_mux = {git="https://github.com/MrPicklePinosaur/shrs.git"}
+
 
  
