@@ -118,7 +118,7 @@ impl InsulterPlugin {
 
 impl Plugin for InsulterPlugin {
     fn init(&self, shell: &mut shrs::ShellConfig) -> Result<()> {
-        shell.hooks.register(insult_hook);
+        shell.hooks.insert(insult_hook);
         shell.state.insert(InsulterState::new(
             self.insults.clone(),
             self.freq,
