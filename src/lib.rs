@@ -133,7 +133,7 @@ impl Default for InsulterPlugin {
     }
 }
 fn insult_hook(
-    _sh: &Shell,
+    sh: &Shell,
     sh_ctx: &mut Context,
     _sh_rt: &mut Runtime,
     ctx: &AfterCommandCtx,
@@ -141,7 +141,11 @@ fn insult_hook(
     if !ctx.cmd_output.status.success() {
         if let Some(state) = sh_ctx.state.get_mut::<InsulterState>() {
             if state.should_insult() {
-                sh_ctx.out.println(format!("\n{}", state.rand_insult()))?;
+                sh_ctx.out.print_buf(styled!(
+                    "󱃋 ",
+                    state.rand_insult().with(sh.theme.green),
+                    " 󱃋"
+                ))?;
             }
         }
     }
