@@ -144,7 +144,7 @@ fn insult_hook(
                 sh_ctx.out.print_buf(styled!(
                     "󱃋 ",
                     state.rand_insult().with(sh.theme.green),
-                    " 󱃋"
+                    " 󱃋\n"
                 ))?;
             }
         }
