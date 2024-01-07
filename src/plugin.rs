@@ -56,7 +56,7 @@ fn insult_hook(
         if let Some(state) = sh_ctx.state.get_mut::<InsulterState>() {
             if state.should_insult() {
                 sh_ctx.out.print_buf(
-                    styled!("󱃋 ", state.rand_insult(), " 󱃋\n").apply_styles(state.style),
+                    styled!("\n  󱃋 ", state.rand_insult(), " 󱃋\n\n").apply_styles(state.style),
                 )?;
             }
         }

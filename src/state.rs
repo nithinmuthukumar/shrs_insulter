@@ -22,6 +22,9 @@ impl InsulterState {
         if include_default {
             insults_c.append(&mut DEFAULT_INSULTS.iter().map(|i| i.to_string()).collect());
         }
+        if insults_c.is_empty() {
+            panic!("NO INSULTS U DUMMY")
+        }
         Self {
             insults: RefCell::new(insults_c.iter().map(|i| i.to_string()).collect()),
             freq,
