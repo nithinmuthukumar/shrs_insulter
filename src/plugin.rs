@@ -1,7 +1,7 @@
 use crossterm::style::{Color, ContentStyle, Stylize};
 use shrs::{
     anyhow,
-    prelude::{styled, AfterCommandCtx, Context, Plugin, Runtime, Shell},
+    prelude::{styled_buf, AfterCommandCtx, Context, Plugin, Runtime, Shell, ShellConfig},
 };
 
 use crate::state::InsulterState;
@@ -12,7 +12,6 @@ pub struct InsulterPlugin {
     include_default: bool,
     style: ContentStyle,
 }
-
 impl InsulterPlugin {
     pub fn new(
         insults: Vec<String>,
@@ -30,7 +29,7 @@ impl InsulterPlugin {
 }
 
 impl Plugin for InsulterPlugin {
-    fn init(&self, shell: &mut shrs::ShellConfig) -> anyhow::Result<()> {
+    fn init(&self, shell: &mut ShellConfig) -> anyhow::Result<()> {
         shell.hooks.insert(insult_hook);
         shell.state.insert(InsulterState::new(
             self.insults.clone(),
@@ -43,7 +42,7 @@ impl Plugin for InsulterPlugin {
 }
 impl Default for InsulterPlugin {
     fn default() -> Self {
-        Self::new(vec![], 1., true, ContentStyle::default().with(Color::Red))
+        Self::new(vec![], 1., true, ContentStyle::new().red())
     }
 }
 fn insult_hook(
@@ -56,7 +55,7 @@ fn insult_hook(
         if let Some(state) = sh_ctx.state.get_mut::<InsulterState>() {
             if state.should_insult() {
                 sh_ctx.out.print_buf(
-                    styled!("\n  󱃋 ", state.rand_insult(), " 󱃋\n\n").apply_styles(state.style),
+                    styled_buf!("\n  󱃋 ", state.rand_insult(), " 󱃋\n\n").apply_style(state.style),
                 )?;
             }
         }
